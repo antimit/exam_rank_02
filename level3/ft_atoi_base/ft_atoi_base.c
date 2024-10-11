@@ -1,69 +1,65 @@
-
-#include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 
-char	toLower(char c)
+char toLower(char c)
 {
-	if (c >= 'A' && c <= 'Z')
+	if(c >='A' && c <='Z')
+	{
 		return (c + 32);
-	else
-		return (c);
+	}
+	return c;
 }
 
-int	get_digit(char c, int str_base)
+int get_digit(char c, int str_base)
 {
-	char	maxValue;
-	int		result;
-
-	if (str_base <= 10)
-		maxValue = str_base - 1 + '0';
+	int max_value;
+	if(str_base <=10)
+	{
+		max_value = str_base - 1  +'0';
+	}
 	else
-		maxValue = str_base - 10 - 1 + 'a';
-	if (c >= '0' && c <= '9' && c <= maxValue)
+	{
+		max_value = str_base -1 - 10 + 'a';
+	}
+	if(c >='0' && c <='9' && c <= max_value)
 	{
 		return (c - '0');
 	}
-	else if (c >= 'a' && c <= 'f' && c <= maxValue)
+	else if(c >='a' && c <='z' && c <= max_value)
 	{
-		return (c + 10 - 'a');
+		return (c -'a' +10);
 	}
 	else
-		return (-1);
+	{
+		return -1;
+	}
+
 }
 
 int	ft_atoi_base(const char *str, int str_base)
 {
-	int	sign;
-	int	result;
-	int	digit;
-
-	sign = 1;
+	if(!str || str_base<2 || str_base>16)
+	{
+		return 0;
+	}
+	int result;
 	result = 0;
-	if (str == NULL || str_base < 2 || str_base > 16)
+	while(*str)
 	{
-		return (0);
-	}
-	if (*str == '-')
-	{
-		sign = -1;
-        str++;
-	}
-	while (*str)
-	{
-		digit = get_digit(toLower(*str), str_base);
-        if(digit == -1)
-        {
-            break;
-        }
-		result = result * str_base + digit ;
+		int digit;
+		digit = get_digit(toLower(*str),str_base);
+		if(digit == -1)
+		{
+			return (result);
+		}
+		result = str_base * result + digit;
 		str++;
+		
 	}
-    return result;
+	return(result);
 }
 
 int main()
 {
-    printf("%d",ft_atoi_base("1010",2));
-
+	int result = ft_atoi_base("1010",2);
+	printf("%d",result);
 }
